@@ -516,7 +516,7 @@ func CreateDamageAbsorptionAura(character *Character, auraLabel string, actionID
 		aura.ShieldStrength = 0
 	})
 
-	character.AddDynamicDamageTakenModifier(func(sim *Simulation, spell *Spell, result *SpellResult) {
+	character.AddDynamicDamageTakenModifier(func(sim *Simulation, spell *Spell, result *SpellResult, isPeriodic bool) {
 		if aura.Aura.IsActive() && result.Damage > 0 && (extraSpellCheck == nil || extraSpellCheck(spell)) {
 			absorbedDamage := min(aura.ShieldStrength, result.Damage)
 			result.Damage -= absorbedDamage

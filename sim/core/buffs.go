@@ -908,7 +908,7 @@ func registerGuardianSpiritCD(agent Agent, numGuardianSpirits int32) {
 	gsAura := GuardianSpiritAura(character, -1)
 	healthMetrics := character.NewHealthMetrics(ActionID{SpellID: 47788})
 
-	character.AddDynamicDamageTakenModifier(func(sim *Simulation, _ *Spell, result *SpellResult) {
+	character.AddDynamicDamageTakenModifier(func(sim *Simulation, _ *Spell, result *SpellResult, isPeriodic bool) {
 		if (result.Damage >= character.CurrentHealth()) && gsAura.IsActive() {
 			result.Damage = character.CurrentHealth()
 			character.GainHealth(sim, 0.5*character.MaxHealth(), healthMetrics)

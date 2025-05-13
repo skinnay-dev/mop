@@ -470,15 +470,19 @@ export class ActionId {
 					name += ' (DoT)';
 				}
 				break;
-			case 'Exorcism':
-				if (tag === 3) {
-					name = 'Glyph of Exorcism (DoT)';
-				}
-				break;
 			case 'Seal of Righteousness':
 				if (tag === 2) {
 					name += ' (DS)';
 				}
+				break;
+			case 'Inquisition':
+				name += ` (${tag} HP)`;
+				break;
+			case 'Harsh Word':
+				name = `Word of Glory (Damage, ${tag} HP)`;
+				break;
+			case 'Word of Glory':
+				name = `Word of Glory (Healing, ${tag} HP)`;
 				break;
 			// For targetted buffs, tag is the source player's raid index or -1 if none.
 			case 'Bloodlust':
@@ -687,9 +691,6 @@ export class ActionId {
 			case 'Item - Paladin T12 Retribution 4P Bonus':
 				name = 'Battleplate of Immolation - T12 4pc';
 				break;
-			case 'Virtuous Empowerment':
-				name = 'Battleplate of Radiant Glory - T13 2pc';
-				break;
 			case 'Hurricane':
 				if (tag == 1) {
 					name += ' (Main Hand)';
@@ -753,6 +754,21 @@ export class ActionId {
 			case 'Rushing Jade Wind':
 				if (this.spellId === 148187) {
 					name += ' (Hit)';
+				}
+				break;
+			case 'Holy Prism':
+				if (this.spellId === 114852) {
+					if (tag === 1) {
+						name += ' (Damage)';
+					} else if (tag === 2) {
+						name += ' (Aoe heal)';
+					}
+				} else if (this.spellId === 114871) {
+					if (tag === 1) {
+						name += ' (Heal)';
+					} else if (tag === 2) {
+						name += ' (Aoe damage)';
+					}
 				}
 				break;
 			default:

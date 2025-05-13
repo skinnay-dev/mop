@@ -30,7 +30,7 @@ const (
 	FocusBar
 )
 
-type DynamicDamageTakenModifier func(sim *Simulation, spell *Spell, result *SpellResult)
+type DynamicDamageTakenModifier func(sim *Simulation, spell *Spell, result *SpellResult, isPeriodic bool)
 
 type GetSpellpowerValue func(spell *Spell) float64
 

@@ -151,7 +151,7 @@ func (hunter *Hunter) RegisterSpells() {
 	// hunter.registerMultiShotSpell()
 	// hunter.registerKillCommandSpell()
 	// hunter.registerExplosiveTrapSpell(hunter.FireTrapTimer)
-	// hunter.registerCobraShotSpell()
+	hunter.registerCobraShotSpell()
 	// hunter.registerRapidFireCD()
 	// hunter.registerSilencingShotSpell()
 	hunter.registerRaptorStrikeSpell()

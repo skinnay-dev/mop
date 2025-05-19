@@ -147,7 +147,7 @@ func (hunter *Hunter) RegisterSpells() {
 	hunter.registerArcaneShotSpell()
 	hunter.registerKillShotSpell()
 	// hunter.registerAspectOfTheHawkSpell()
-	// hunter.registerSerpentStingSpell()
+	hunter.registerSerpentStingSpell()
 	// hunter.registerMultiShotSpell()
 	// hunter.registerKillCommandSpell()
 	// hunter.registerExplosiveTrapSpell(hunter.FireTrapTimer)

@@ -7,7 +7,6 @@ import (
 )
 
 func (hunter *Hunter) registerSerpentStingSpell() {
-	noxiousStingsMultiplier := 1 + 0.05*float64(hunter.Talents.NoxiousStings)
 
 	hunter.ImprovedSerpentSting = hunter.RegisterSpell(core.SpellConfig{
 		ActionID:                 core.ActionID{SpellID: 82834},
@@ -20,7 +19,7 @@ func (hunter *Hunter) registerSerpentStingSpell() {
 		CritMultiplier:           hunter.CritMultiplier(1, 0),
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			baseDamage := (460 * 5) + 0.40*spell.RangedAttackPower()
-			dmg := baseDamage * (float64(hunter.Talents.ImprovedSerpentSting) * 0.15)
+			dmg := baseDamage * 0.15
 			spell.CalcAndDealDamage(sim, target, dmg, spell.OutcomeMeleeSpecialCritOnly)
 		},
 	})
@@ -55,23 +54,6 @@ func (hunter *Hunter) registerSerpentStingSpell() {
 				ActionID: core.ActionID{SpellID: 1978},
 				Label:    "SerpentStingDot",
 				Tag:      "SerpentSting",
-				OnGain: func(aura *core.Aura, sim *core.Simulation) {
-					hunter.AttackTables[aura.Unit.UnitIndex].DamageTakenMultiplier *= noxiousStingsMultiplier
-
-				},
-				OnExpire: func(aura *core.Aura, sim *core.Simulation) {
-					if sim.GetRemainingDuration() > time.Millisecond*1 {
-						core.StartDelayedAction(sim, core.DelayedActionOptions{
-							Priority: core.ActionPriorityDOT - 1,
-							DoAt:     sim.CurrentTime + time.Millisecond*1,
-							OnAction: func(sim *core.Simulation) {
-								hunter.AttackTables[aura.Unit.UnitIndex].DamageTakenMultiplier /= noxiousStingsMultiplier
-							},
-						})
-					} else {
-						hunter.AttackTables[aura.Unit.UnitIndex].DamageTakenMultiplier /= noxiousStingsMultiplier
-					}
-				},
 			},
 
 			NumberOfTicks: 5,
@@ -92,9 +74,9 @@ func (hunter *Hunter) registerSerpentStingSpell() {
 			spell.WaitTravelTime(sim, func(sim *core.Simulation) {
 				if result.Landed() {
 					spell.Dot(target).Apply(sim)
-					if hunter.Talents.ImprovedSerpentSting > 0 {
-						hunter.ImprovedSerpentSting.Cast(sim, target)
-					}
+					// if hunter.Talents.ImprovedSerpentSting > 0 {
+					hunter.ImprovedSerpentSting.Cast(sim, target)
+					// }
 				}
 				spell.DealOutcome(sim, result)
 			})

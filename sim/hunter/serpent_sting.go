@@ -18,7 +18,7 @@ func (hunter *Hunter) registerSerpentStingSpell() {
 		DamageMultiplierAdditive: 1,
 		CritMultiplier:           hunter.CritMultiplier(1, 0),
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := (3240.4 * 5) + 0.40*spell.RangedAttackPower()
+			baseDamage := (3240.4 * 5) + 0.16*spell.RangedAttackPower()
 			dmg := baseDamage * 0.15 * 1.5
 			spell.CalcAndDealDamage(sim, target, dmg, spell.OutcomeMeleeSpecialCritOnly)
 		},
@@ -61,7 +61,7 @@ func (hunter *Hunter) registerSerpentStingSpell() {
 			NumberOfTicks: 5,
 			TickLength:    time.Second * 3,
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, isRollover bool) {
-				baseDmg := 3240.4 + 0.08*dot.Spell.RangedAttackPower()
+				baseDmg := 3240.4 + 0.032*dot.Spell.RangedAttackPower()
 				dot.Snapshot(target, baseDmg)
 			},
 			OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {

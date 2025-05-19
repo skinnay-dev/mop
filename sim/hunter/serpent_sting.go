@@ -18,8 +18,8 @@ func (hunter *Hunter) registerSerpentStingSpell() {
 		DamageMultiplierAdditive: 1,
 		CritMultiplier:           hunter.CritMultiplier(1, 0),
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := (460 * 5) + 0.40*spell.RangedAttackPower()
-			dmg := baseDamage * 0.15
+			baseDamage := (3240.4 * 5) + 0.40*spell.RangedAttackPower()
+			dmg := baseDamage * 0.15 * 1.5
 			spell.CalcAndDealDamage(sim, target, dmg, spell.OutcomeMeleeSpecialCritOnly)
 		},
 	})
@@ -31,7 +31,7 @@ func (hunter *Hunter) registerSerpentStingSpell() {
 		ClassSpellMask: HunterSpellSerpentSting,
 		Flags:          core.SpellFlagAPL,
 		MissileSpeed:   40,
-		MinRange:       5,
+		MinRange:       0,
 		MaxRange:       40,
 		FocusCost: core.FocusCostOptions{
 			Cost: 25,
@@ -43,7 +43,9 @@ func (hunter *Hunter) registerSerpentStingSpell() {
 			IgnoreHaste: true,
 		},
 
-		DamageMultiplierAdditive: 1,
+		// TODO: if hunter.Specialization.Survival {
+		DamageMultiplierAdditive: 1.5,
+		// }
 
 		// SS uses Spell Crit which is multiplied by toxicology
 		CritMultiplier:   hunter.CritMultiplier(1, 0),
@@ -59,7 +61,7 @@ func (hunter *Hunter) registerSerpentStingSpell() {
 			NumberOfTicks: 5,
 			TickLength:    time.Second * 3,
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, isRollover bool) {
-				baseDmg := 460 + 0.08*dot.Spell.RangedAttackPower()
+				baseDmg := 3240.4 + 0.08*dot.Spell.RangedAttackPower()
 				dot.Snapshot(target, baseDmg)
 			},
 			OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
@@ -74,7 +76,7 @@ func (hunter *Hunter) registerSerpentStingSpell() {
 			spell.WaitTravelTime(sim, func(sim *core.Simulation) {
 				if result.Landed() {
 					spell.Dot(target).Apply(sim)
-					// if hunter.Talents.ImprovedSerpentSting > 0 {
+					// TODO: if hunter.Specialization.Survival {
 					hunter.ImprovedSerpentSting.Cast(sim, target)
 					// }
 				}

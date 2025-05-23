@@ -15,7 +15,7 @@ func (hunter *Hunter) registerKillShotSpell() {
 		Flags:          core.SpellFlagMeleeMetrics | core.SpellFlagAPL,
 		MissileSpeed:   40,
 		MinRange:       0,
-		MaxRange:       40,
+		MaxRange:       45,
 		FocusCost: core.FocusCostOptions{
 			Cost: 0,
 		},
@@ -32,15 +32,13 @@ func (hunter *Hunter) registerKillShotSpell() {
 		ExtraCastCondition: func(sim *core.Simulation, target *core.Unit) bool {
 			return sim.IsExecutePhase20()
 		},
-		DamageMultiplier: 1.5,
+		DamageMultiplier: 1,
 		CritMultiplier:   hunter.DefaultCritMultiplier(),
 		ThreatMultiplier: 1,
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			normalizedWeaponDamage := hunter.AutoAttacks.Ranged().CalculateNormalizedWeaponDamage(sim, spell.RangedAttackPower())
-			rapBonusDamage := spell.RangedAttackPower() * 0.45
-			flatBonus := 543.0
 
-			baseDamage := normalizedWeaponDamage + rapBonusDamage + flatBonus
+			baseDamage := 4.2 * normalizedWeaponDamage
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeRangedHitAndCrit)
 
 			spell.WaitTravelTime(sim, func(sim *core.Simulation) {

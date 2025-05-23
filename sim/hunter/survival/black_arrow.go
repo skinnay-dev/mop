@@ -7,11 +7,7 @@ import (
 	"github.com/wowsims/mop/sim/hunter"
 )
 
-func (svHunter *SurvivalHunter) registerBlackArrowSpell(timer *core.Timer) {
-	if !svHunter.Talents.BlackArrow {
-		return
-	}
-
+func (svHunter *SurvivalHunter) registerBlackArrowSpell() {
 	actionID := core.ActionID{SpellID: 3674}
 
 	svHunter.Hunter.BlackArrow = svHunter.Hunter.RegisterSpell(core.SpellConfig{
@@ -24,15 +20,14 @@ func (svHunter *SurvivalHunter) registerBlackArrowSpell(timer *core.Timer) {
 			Cost: 35,
 		},
 		MissileSpeed: 40,
-		MinRange:     5,
+		MinRange:     0,
 		MaxRange:     40,
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
 				GCD: time.Second,
 			},
-			IgnoreHaste: true, // Hunter GCD is locked at 1.5s
+			IgnoreHaste: true, // Hunter GCD is locked at 1.0s
 			CD: core.Cooldown{
-				Timer:    timer,
 				Duration: time.Second * 30,
 			},
 		},
@@ -49,7 +44,7 @@ func (svHunter *SurvivalHunter) registerBlackArrowSpell(timer *core.Timer) {
 			AffectedByCastSpeed: false,
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, isRollover bool) {
 				rap := dot.Spell.RangedAttackPower()
-				baseDmg := 285.245 + (0.0665 * rap)
+				baseDmg := 157 + (0.126 * rap)
 				dot.Snapshot(target, baseDmg)
 			},
 			OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {

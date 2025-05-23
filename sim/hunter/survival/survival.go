@@ -29,7 +29,7 @@ func (hunter *SurvivalHunter) Initialize() {
 	hunter.Hunter.Initialize()
 
 	// hunter.registerExplosiveShotSpell()
-	// hunter.registerBlackArrowSpell(hunter.FireTrapTimer)
+	hunter.registerBlackArrowSpell()
 	// Apply SV Hunter mastery
 	schoolsAffectedBySurvivalMastery := []stats.SchoolIndex{
 		stats.SchoolIndexNature,

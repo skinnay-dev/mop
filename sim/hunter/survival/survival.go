@@ -1,6 +1,8 @@
 package survival
 
 import (
+	"time"
+
 	"github.com/wowsims/mop/sim/core"
 	"github.com/wowsims/mop/sim/core/proto"
 	"github.com/wowsims/mop/sim/core/stats"
@@ -62,8 +64,8 @@ func (hunter *SurvivalHunter) getMasteryBonus(masteryRating float64) float64 {
 func (hunter *SurvivalHunter) applySurvivalPassives() {
 	hunter.applyViperVenom()
 	hunter.applyImprovedSerpentSting()
+	hunter.applyTrapMastery()
 	// TODO
-	// hunter.applyTrapMastery()
 	// hunter.applyLockAndLoad()
 	// hunter.applySerpentSpread()
 }
@@ -102,6 +104,20 @@ func (svHunter *SurvivalHunter) applyImprovedSerpentSting() {
 			dmg := baseDamage * 0.15
 			spell.CalcAndDealDamage(sim, target, dmg, spell.OutcomeMeleeSpecialCritOnly)
 		},
+	})
+}
+
+func (svHunter *SurvivalHunter) applyTrapMastery() {
+	svHunter.AddStaticMod(core.SpellModConfig{
+		Kind:      core.SpellMod_Cooldown_Flat,
+		ClassMask: hunter.HunterSpellBlackArrow | hunter.HunterSpellExplosiveTrap,
+		TimeValue: -(time.Second * 6),
+	})
+
+	svHunter.AddStaticMod(core.SpellModConfig{
+		Kind:       core.SpellMod_DamageDone_Flat,
+		ClassMask:  hunter.HunterSpellBlackArrow | hunter.HunterSpellExplosiveTrap,
+		FloatValue: .30,
 	})
 }
 

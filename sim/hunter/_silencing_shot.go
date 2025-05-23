@@ -17,7 +17,7 @@ func (hunter *Hunter) registerSilencingShotSpell() {
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskRangedSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagAPL,
-		MinRange:    5,
+		MinRange:    0,
 		MaxRange:    40,
 		FocusCost: core.FocusCostOptions{
 			Cost: 0,

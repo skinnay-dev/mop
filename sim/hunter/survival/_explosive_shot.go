@@ -54,7 +54,7 @@ func (svHunter *SurvivalHunter) registerExplosiveShotSpell() {
 		ProcMask:       core.ProcMaskRangedSpecial,
 		Flags:          core.SpellFlagMeleeMetrics | core.SpellFlagAPL,
 		MissileSpeed:   40,
-		MinRange:       5,
+		MinRange:       0,
 		MaxRange:       40,
 		FocusCost: core.FocusCostOptions{
 			Cost: 50,

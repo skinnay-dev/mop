@@ -61,6 +61,11 @@ func (hunter *SurvivalHunter) getMasteryBonus(masteryRating float64) float64 {
 
 func (hunter *SurvivalHunter) applySurvivalPassives() {
 	hunter.applyViperVenom()
+	hunter.applyImprovedSerpentSting()
+	// TODO
+	// hunter.applyTrapMastery()
+	// hunter.applyLockAndLoad()
+	// hunter.applySerpentSpread()
 }
 
 func (hunter *SurvivalHunter) applyViperVenom() {
@@ -75,6 +80,27 @@ func (hunter *SurvivalHunter) applyViperVenom() {
 				focusMetrics := hunter.NewFocusMetrics(core.ActionID{SpellID: 118974})
 				hunter.AddFocus(sim, 3, focusMetrics)
 			}
+		},
+	})
+}
+
+func (svHunter *SurvivalHunter) applyImprovedSerpentSting() {
+	damageMultiplier := 1.5
+	svHunter.SerpentSting.DamageMultiplierAdditive = damageMultiplier
+
+	svHunter.ImprovedSerpentSting = svHunter.RegisterSpell(core.SpellConfig{
+		ActionID:                 core.ActionID{SpellID: 82834},
+		SpellSchool:              core.SpellSchoolNature,
+		ProcMask:                 core.ProcMaskDirect,
+		ClassSpellMask:           hunter.HunterSpellSerpentSting,
+		Flags:                    core.SpellFlagPassiveSpell,
+		DamageMultiplier:         1,
+		DamageMultiplierAdditive: damageMultiplier,
+		CritMultiplier:           svHunter.CritMultiplier(1, 0),
+		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
+			baseDamage := (3240.4 * 5) + 0.16*spell.RangedAttackPower()
+			dmg := baseDamage * 0.15
+			spell.CalcAndDealDamage(sim, target, dmg, spell.OutcomeMeleeSpecialCritOnly)
 		},
 	})
 }

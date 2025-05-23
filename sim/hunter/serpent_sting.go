@@ -8,22 +8,6 @@ import (
 
 func (hunter *Hunter) registerSerpentStingSpell() {
 
-	hunter.ImprovedSerpentSting = hunter.RegisterSpell(core.SpellConfig{
-		ActionID:                 core.ActionID{SpellID: 82834},
-		SpellSchool:              core.SpellSchoolNature,
-		ProcMask:                 core.ProcMaskDirect,
-		ClassSpellMask:           HunterSpellSerpentSting,
-		Flags:                    core.SpellFlagPassiveSpell,
-		DamageMultiplier:         1,
-		DamageMultiplierAdditive: 1,
-		CritMultiplier:           hunter.CritMultiplier(1, 0),
-		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := (3240.4 * 5) + 0.16*spell.RangedAttackPower()
-			dmg := baseDamage * 0.15 * 1.5
-			spell.CalcAndDealDamage(sim, target, dmg, spell.OutcomeMeleeSpecialCritOnly)
-		},
-	})
-
 	hunter.SerpentSting = hunter.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: 1978},
 		SpellSchool:    core.SpellSchoolNature,
@@ -43,9 +27,7 @@ func (hunter *Hunter) registerSerpentStingSpell() {
 			IgnoreHaste: true,
 		},
 
-		// TODO: if hunter.Specialization.Survival {
-		DamageMultiplierAdditive: 1.5,
-		// }
+		DamageMultiplierAdditive: 1,
 
 		// SS uses Spell Crit which is multiplied by toxicology
 		CritMultiplier:   hunter.CritMultiplier(1, 0),
@@ -76,9 +58,8 @@ func (hunter *Hunter) registerSerpentStingSpell() {
 			spell.WaitTravelTime(sim, func(sim *core.Simulation) {
 				if result.Landed() {
 					spell.Dot(target).Apply(sim)
-					// TODO: if hunter.Specialization.Survival {
+					// TODO: Check if hunter is survival specialization
 					hunter.ImprovedSerpentSting.Cast(sim, target)
-					// }
 				}
 				spell.DealOutcome(sim, result)
 			})

@@ -28,6 +28,7 @@ func (svHunter *SurvivalHunter) registerBlackArrowSpell() {
 			},
 			IgnoreHaste: true, // Hunter GCD is locked at 1.0s
 			CD: core.Cooldown{
+				Timer:    svHunter.NewTimer(),
 				Duration: time.Second * 30,
 			},
 		},

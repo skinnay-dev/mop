@@ -17,7 +17,7 @@ func (hunter *Hunter) registerArcaneShotSpell() {
 		MinRange:       0,
 		MaxRange:       40,
 		FocusCost: core.FocusCostOptions{
-			Cost: 25,
+			Cost: 30,
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
@@ -34,7 +34,7 @@ func (hunter *Hunter) registerArcaneShotSpell() {
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			wepDmg := hunter.AutoAttacks.Ranged().CalculateNormalizedWeaponDamage(sim, spell.RangedAttackPower())
-			baseDamage := wepDmg + (0.0483 * spell.RangedAttackPower()) + 290
+			baseDamage := 1.25*wepDmg + 2306
 
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeRangedHitAndCrit)
 

@@ -50,11 +50,33 @@ func (hunter *SurvivalHunter) Initialize() {
 		}
 	})
 
+	hunter.applySurvivalPassives()
+
 	// Survival Spec Bonus
 	hunter.MultiplyStat(stats.Agility, 1.1)
 }
 func (hunter *SurvivalHunter) getMasteryBonus(masteryRating float64) float64 {
 	return 1.08 + ((masteryRating / core.MasteryRatingPerMasteryPoint) * 0.01)
+}
+
+func (hunter *SurvivalHunter) applySurvivalPassives() {
+	hunter.applyViperVenom()
+}
+
+func (hunter *SurvivalHunter) applyViperVenom() {
+	hunter.RegisterAura(core.Aura{
+		Label:    "Viper Venom",
+		Duration: core.NeverExpires,
+		OnReset: func(aura *core.Aura, sim *core.Simulation) {
+			aura.Activate(sim)
+		},
+		OnPeriodicDamageDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+			if spell == hunter.SerpentSting {
+				focusMetrics := hunter.NewFocusMetrics(core.ActionID{SpellID: 118974})
+				hunter.AddFocus(sim, 3, focusMetrics)
+			}
+		},
+	})
 }
 
 func NewSurvivalHunter(character *core.Character, options *proto.Player) *SurvivalHunter {
